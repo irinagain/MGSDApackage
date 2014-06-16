@@ -2,3 +2,4 @@
 *.Rhistory
 MGSDA/.Rbuildignore
 *.Rproj*
+*.html
