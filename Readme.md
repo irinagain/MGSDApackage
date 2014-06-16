@@ -1,6 +1,6 @@
 ## Description of R package MGSDA
 
-MGSDA (Multi-Group Sparse Discriminant Analysis) is an R package that implements methods described in I.Gaynanova, J.Booth and M. Wells "Simultaneous sparse estimation of canonical vectors in the p>>n setting." The most recent version of the article is attached.
+MGSDA (Multi-Group Sparse Discriminant Analysis) is an R package that implements methods described in I.Gaynanova, J.Booth and M. Wells "Simultaneous sparse estimation of canonical vectors in the p>>n setting."[http://arxiv.org/abs/1403.6095] 
 
 The package is still under development, but the most recent beta-version can be installed using MGSDA_0.0.tar.gz.
 
