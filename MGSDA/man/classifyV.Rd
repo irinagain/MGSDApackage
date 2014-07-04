@@ -5,7 +5,7 @@
 Classification for MGSDA
 }
 \description{
-Classifies observations in the test set using the supplied matrix of canonical vectors V and the training set.
+Classify observations in the test set using the supplied matrix of canonical vectors V and the training set.
 }
 \usage{
 classifyV(Xtrain, Ytrain, Xtest, V, prior = T)
