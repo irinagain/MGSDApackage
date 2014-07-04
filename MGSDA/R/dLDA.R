@@ -36,8 +36,8 @@ function(xtrain,ytrain,lambda,Vinit=NULL){
     if (is.null(Vinit)) {
       V=.solveVcoordf2(W=crossprod(Xadj)/(length(ytrain)-1),D=D,lambda=lambda)
     } else {
-      if ((nrow(V)!=ncol(xtrain))|(ncol(V)!=G-1)){
-        stop("Supplied initial value for V has wrong dimensions!")
+      if ((nrow(Vinit)!=ncol(xtrain))|(ncol(Vinit)!=G-1)){
+        stop("Supplied initial value for Vinit has wrong dimensions!")
       }
       V=.solveVcoordf2(W=crossprod(Xadj)/(length(ytrain)-1),D=D,lambda=lambda,V=Vinit)
     }
