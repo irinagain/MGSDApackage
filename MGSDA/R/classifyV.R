@@ -1,7 +1,7 @@
 #Irina Gaynanova
 #Nov 25th, 2013
 
-# Classification for test set based on V
+# Classification for the test set based on V
 # Xtrain is n1 by p
 # Xtest is n2 by p
 # Ytrain is n1 by 1
