@@ -2,7 +2,7 @@
 \alias{dLDA}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Estimate the matrix of discriminant vectors using L1 penalty on the rows
+Estimate the matrix of discriminant vectors using L_1 penalty on the rows
 }
 \description{
 Solve Multi-Group Sparse Discriminant Anlalysis problem for the supplied value of the tuning parameter lambda.% The problem is formulated as
@@ -24,11 +24,15 @@ dLDA(xtrain, ytrain, lambda, Vinit = NULL)
     Tuning parameter.
 }
   \item{Vinit}{
-    Optional initial value for the optimation algorithm; the default value is NULL.
+    A px(G-1) optional initial value for the optimization algorithm; the default value is NULL.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Solves the following optimization problem:
+\deqn{\min_V \frac12\Tr(V^tWV)+\frac12\|D^tV-I\|^2_F+\lambda\sum_{i=1}^p\|v_i\|_2.}{
+min_V \{1/2*Tr(V'WV+V'DD'V-2D'V)+lambda*sum(||v_i||_2)\}.
+}
+Here W is the within-group sample covariance matrix and D is the matrix of orthogonal contrasts between the group means, both are constructed based on the supplied values of \code{xtrain} and \code{ytrain}.
 }
 \value{
 Returns a px(G-1) matrix of canonical vectors V.
@@ -62,7 +66,7 @@ ytrain=rep(1:G,each=n)
 set.seed(1)
 xtrain=matrix(rnorm(p*n*G),n*G,p)
 V=dLDA(xtrain,ytrain,lambda=0.1)
-sum(rowSums(V)!=0)
+sum(rowSums(V)!=0) # number of non-zero rows
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
