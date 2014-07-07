@@ -50,15 +50,15 @@ I.Gaynanova, J.Booth and M.Wells (2014) "Simultaneous Sparse Estimation of Canon
 \author{
 Irina Gaynanova
 }
-\note{
+%\note{
 %%  ~~further notes~~
-}
+%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
+%\seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+%}
 \examples{
 ### Example 1
 # generate training data
@@ -80,5 +80,5 @@ ytest=classifyV(xtrain,ytrain,xtest,V)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+%\keyword{ ~kwd1 }
+%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

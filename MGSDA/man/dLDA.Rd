@@ -29,10 +29,12 @@ dLDA(xtrain, ytrain, lambda, Vinit = NULL)
 }
 \details{
 Solves the following optimization problem:
-\deqn{\min_V \frac12\Tr(V^tWV)+\frac12\|D^tV-I\|^2_F+\lambda\sum_{i=1}^p\|v_i\|_2.}{
+\deqn{\min_V \frac12 Tr(V^tWV)+\frac12\|D^tV-I\|^2_F+\lambda\sum_{i=1}^p\|v_i\|_2.}{
 min_V \{1/2*Tr(V'WV+V'DD'V-2D'V)+lambda*sum(||v_i||_2)\}.
 }
 Here W is the within-group sample covariance matrix and D is the matrix of orthogonal contrasts between the group means, both are constructed based on the supplied values of \code{xtrain} and \code{ytrain}.
+
+When \eqn{G=2}{G=2}, the above row penalty reduces to vector L_1 penalty and the function uses \code{glmnet} subroutine to solve the optimization problem.
 }
 \value{
 Returns a px(G-1) matrix of canonical vectors V.
@@ -48,15 +50,15 @@ I.Gaynanova, J.Booth and M.Wells (2012) "Simultaneous Sparse Estimation of Canon
 \author{
 Irina Gaynanova
 }
-\note{
+%\note{
 %%  ~~further notes~~
-}
+%}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
+%\seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+%}
 \examples{
 # Example 1
 n=10
@@ -70,5 +72,5 @@ sum(rowSums(V)!=0) # number of non-zero rows
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+%\keyword{ ~kwd1 }
+%\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

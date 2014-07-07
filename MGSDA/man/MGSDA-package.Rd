@@ -18,7 +18,7 @@ License: \tab GPL(>=2)\cr
 }
 Three functions for estimation and prediction: \code{cv.dLDA}, \code{dLDA} and \code{classifyV}.
 
-Two functions for visualization: \code{histG2} and \code{scatterG3}.
+%Two functions for visualization: \code{histG2} and \code{scatterG3}.
 }
 \author{
 Irina Gaynanova
@@ -29,11 +29,11 @@ Maintainer: Irina Gaynanova <ig93@cornell.edu>
 I.Gaynanova, J.Booth and M.Wells (2014). "Simultaneous sparse estimation of canonical vectors in the p>>N setting"
 }
 
-\keyword{package}
-\seealso{
+%\keyword{package}
+%\seealso{
 %~~ Optional links to other man pages, e.g. ~~
 %~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
+%}
 \examples{
 ### Example 1
 # generate training data

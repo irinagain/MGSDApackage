@@ -4,3 +4,4 @@ MGSDA/.Rbuildignore
 *.Rproj*
 
 *.html
+.Rproj.user

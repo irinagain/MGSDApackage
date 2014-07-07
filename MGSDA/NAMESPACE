@@ -1,3 +1,5 @@
 useDynLib("MGSDA")
 
 exportPattern("^[[:alpha:]]+")
+
+importFrom(glmnet,glmnet)

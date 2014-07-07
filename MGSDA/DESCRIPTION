@@ -1,10 +1,10 @@
 Package: MGSDA
 Type: Package
 Title: Multi-Group Sparse Discriminant Analysis
-Version: 0.0
-Date: 2014-05-23
+Version: 1.0
+Date: 2014-07-07
 Author: Irina Gaynanova
 Maintainer: Irina Gaynanova <ig93@cornell.edu>
 Description: Implements Multi-Group Sparse Discriminant Analysis proposal of 'I.Gaynanova, J.Booth and M.Wells (2014), Simultaneous sparse estimation of canonical vectors in the p>>N setting'
-Depends: glmnet, ggplot2
+Imports: glmnet
 License: GPL(>=2)

@@ -17,7 +17,7 @@ function(xtrain,ytrain,lambda,Vinit=NULL){
   G=max(ytrain)
   
   if (G==2){
-    require(glmnet)
+    #require(glmnet)
     
     n1=sum(ytrain==1)
     n2=sum(ytrain==2)
@@ -26,7 +26,7 @@ function(xtrain,ytrain,lambda,Vinit=NULL){
     Ynew[ytrain==2]=(n1+n2)/n2
     
     out=glmnet(Xadj,Ynew,family="gaussian",alpha=1,standardize=F,lambda=lambda)
-    V=out$beta
+    V=as.matrix(out$beta)
     
   } else {   
     #have W and D
