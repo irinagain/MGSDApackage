@@ -15,10 +15,10 @@ dLDA(xtrain, ytrain, lambda, Vinit = NULL)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{xtrain}{
-  Nxp data matrix; N observations on the rows and p features on the columns.
+  A Nxp data matrix; N observations on the rows and p features on the columns.
 }
   \item{ytrain}{
-    N-vector containing the group labels. Should be coded as 1,2,...,G, where G is the number of groups.
+    A N-vector containing the group labels. Should be coded as 1,2,...,G, where G is the number of groups.
 }
   \item{lambda}{
     Tuning parameter.
