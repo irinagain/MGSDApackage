@@ -45,7 +45,7 @@ Returns a px(G-1) matrix of canonical vectors V.
 %% ...
 }
 \references{
-I.Gaynanova, J.Booth and M.Wells (2012) "Simultaneous Sparse Estimation of Canonical Vectors in the p>>N setting"
+I.Gaynanova, J.Booth and M.Wells (2014) "Simultaneous Sparse Estimation of Canonical Vectors in the p>>N setting"
 }
 \author{
 Irina Gaynanova
