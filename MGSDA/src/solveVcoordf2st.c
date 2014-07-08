@@ -2,11 +2,18 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define max(a,b)	       \
-   ({ __typeof__ (a) _a = (a);		\
-       __typeof__ (b) _b = (b);		\
-     _a > _b ? _a : _b; })
+//#define max(a,b)	       \
+//   ({ __typeof__ (a) _a = (a);		\
+//       __typeof__ (b) _b = (b);		\
+//     _a > _b ? _a : _b; })
 
+double max(double a, double b){
+    if (a>=b){
+        return a;
+    }else{
+        return b;
+    }
+}
 
 void mul(double *a, double *b, int* length,double* runningSum){
    int index;
