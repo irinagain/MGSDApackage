@@ -30,7 +30,7 @@ A logical indicating whether to put larger weights to the groups of larger size;
 }
 \details{
  For a new observation with the value x, the classification is performed based on the smallest Mahalanobis distance in the projected space:
- \deqn{\min_{1\le g \le G}(V^tx-Z_g)(V^tWV)^(-1)(V^tx-Z_g)}{
+ \deqn{\min_{1\le g \le G}(V^tx-Z_g)(V^tWV)^{-1}(V^tx-Z_g)}{
     min_g (V'x-Z_g)(V'WV)^(-1)(V'x-Z_g),}
 where \eqn{Z_g}{Z_g} are the group-specific means of the training dataset in the projected space and \eqn{W}{W} is the sample within-group covariance matrix.   
 
