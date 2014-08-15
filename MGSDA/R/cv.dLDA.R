@@ -117,11 +117,11 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
         features[i,j]=sum(rowSums(V)!=0) #how many features are selected
       
         if (features[i,j]>p-1){ #get to the end of the path when all the features are selected
-          ytestpred=classifyV(xtrain,ytrain,xtest,V)
+          ytestpred=classifyV(Xadj,ytrain,xtest,V)
           error[i,j:nl]=sum(ytestpred!=ytest)
           break
         }else if (features[i,j]>0){
-          ytestpred=classifyV(xtrain,ytrain,xtest,V)
+          ytestpred=classifyV(Xadj,ytrain,xtest,V)
           error[i,j]=sum(ytestpred!=ytest)
        }
     }
