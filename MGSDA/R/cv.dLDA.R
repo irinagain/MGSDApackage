@@ -1,4 +1,4 @@
-cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_ratio=0.01,myseed=NULL){
+cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_ratio=0.01,myseed=NULL,prior=TRUE){
   if (any(is.na(Xtrain))|any(is.na(Ytrain))) 
     stop("Missing values are not allowed!")
   
@@ -52,7 +52,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
       
       #calculate the error rate
       for (j in 1:nl){  
-       ypred=classifyV(xtrain,Ytrain[id!=i],xtest,out$beta[,j])
+       ypred=classifyV(xtrain,Ytrain[id!=i],xtest,out$beta[,j],prior=prior)
        error[i,j]=sum(ypred!=ytest) #how many features are selected
       }
     }
@@ -116,11 +116,11 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
         features[i,j]=sum(rowSums(V)!=0) #how many features are selected
       
         if (features[i,j]>p-1){ #get to the end of the path when all the features are selected
-          ytestpred=classifyV(Xadj,ytrain,xtest,V)
+          ytestpred=classifyV(Xadj,ytrain,xtest,V,prior=prior)
           error[i,j:nl]=sum(ytestpred!=ytest)
           break
         }else if (features[i,j]>0){
-          ytestpred=classifyV(Xadj,ytrain,xtest,V)
+          ytestpred=classifyV(Xadj,ytrain,xtest,V,prior=prior)
           error[i,j]=sum(ytestpred!=ytest)
        }
     }
