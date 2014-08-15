@@ -96,9 +96,11 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
       xtrain=Xtrain[id!=i,]
       Xadj=scale(xtrain)
       coef=attr(Xadj,which="scaled:scale")
+      mtrain=attr(Xadj,which="scaled:center")
     
       ytrain=Ytrain[id!=i]
       xtest=Xtrain[id==i,]
+      xtest=scale(xtest,center=mtrain,scale=coef)
       ytest=Ytrain[id==i]
       
       #calculate D only once for all those lambdaval
@@ -115,11 +117,11 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
         features[i,j]=sum(rowSums(V)!=0) #how many features are selected
       
         if (features[i,j]>p-1){ #get to the end of the path when all the features are selected
-          ytestpred=classifyV(xtrain,ytrain,xtest,diag(1/coef)%*%V)
+          ytestpred=classifyV(xtrain,ytrain,xtest,V)
           error[i,j:nl]=sum(ytestpred!=ytest)
           break
         }else if (features[i,j]>0){
-          ytestpred=classifyV(xtrain,ytrain,xtest,diag(1/coef)%*%V)
+          ytestpred=classifyV(xtrain,ytrain,xtest,V)
           error[i,j]=sum(ytestpred!=ytest)
        }
     }
