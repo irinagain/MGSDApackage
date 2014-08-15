@@ -1,4 +1,4 @@
-cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_ratio=0.01){
+cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_ratio=0.01,myseed=NULL){
   if (any(is.na(Xtrain))|any(is.na(Ytrain))) 
     stop("Missing values are not allowed!")
   
@@ -30,6 +30,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
     features=matrix(p,msep,nl)
     
     #split the dataset into msep parts for each type
+    if (!is.null(myseed)){set.seed(myseed)}
     id=1:n
     for (i in 1:G){
       id[Ytrain==i] <- sample(rep(seq_len(msep),length.out=sum(Ytrain==i)))
@@ -83,6 +84,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
     features=matrix(p,msep,nl)
   
     #split the dataset into msep parts for each type
+    if (!is.null(myseed)){set.seed(myseed)}
     id=1:n
     for (i in 1:G){
       id[Ytrain==i] <- sample(rep(seq_len(msep),length.out=sum(Ytrain==i)))
