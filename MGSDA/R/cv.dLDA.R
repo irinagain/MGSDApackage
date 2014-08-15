@@ -97,10 +97,9 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
       Xadj=scale(xtrain)
       coef=attr(Xadj,which="scaled:scale")
       mtrain=attr(Xadj,which="scaled:center")
-    
       ytrain=Ytrain[id!=i]
       xtest=Xtrain[id==i,]
-      xtest=scale(xtest,center=mtrain,scale=coef)
+      xtest=scale(xtest,center=mtrain,scale=coef) #scale the training set according to test set
       ytest=Ytrain[id==i]
       
       #calculate D only once for all those lambdaval
@@ -111,9 +110,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
     
       #make discrimination with lambda[j],calculate the error rate
       for (j in 1:nl){  
-        # no scaling for initial value
         V=.solveVcoordf2(Tot,D,lambdaval[j],eps=eps,V=V)
-   
         features[i,j]=sum(rowSums(V)!=0) #how many features are selected
       
         if (features[i,j]>p-1){ #get to the end of the path when all the features are selected
