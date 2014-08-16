@@ -42,7 +42,13 @@ classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T){
   } else{
     ######################################
     ######### G>2 ########################   
-    A1=t(V)%*%t(Xtrain)%*%.constructCw(Ytrain)%*%Xtrain%*%V 
+    W=matrix(0,p,p)
+    for (g in 1:G){
+        W=W+(sum(Ytrain==g)-1)*cov(Xtrain)
+    }
+    W=W/(ntrain-1)
+    #A1=t(V)%*%t(Xtrain)%*%.constructCw(Ytrain)%*%Xtrain%*%V 
+    A1=t(V)%*%W%*%V
     tmp=eigen(A1,symmetric=T)
     if (min(tmp$values)>0){ V=V%*%tmp$vectors%*%diag(1/sqrt(tmp$values))
     }else { # V is low rank
