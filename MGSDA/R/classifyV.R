@@ -63,8 +63,10 @@ classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T){
     ngroup=rep(0,G)
     for (i in 1:G){
       ngroup[i]=sum(Ytrain==i)
-      if (ngroup[i]>1) means[i,]=colMeans(trainproj[Ytrain==i,])
-      else means[i,]=trainproj[Ytrain==i,]
+      if ((ngroup[i]>1)&(ncol(V)>1)){ means[i,]=colMeans(trainproj[Ytrain==i,])
+      }else if (ncol(V)==1){
+          means[i,]=mean(trainproj[Ytrain==i,])
+      }else {means[i,]=trainproj[Ytrain==i,]}
     }
     
     #currently have A as I
