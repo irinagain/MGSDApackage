@@ -53,7 +53,8 @@ classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T){
     if (min(tmp$values)>0){ V=V%*%tmp$vectors%*%diag(1/sqrt(tmp$values))
     }else { # V is low rank
       #return(rep(0,ntest))
-      V=V%*%tmp$vectors[,tmp$values>0]%*%diag(1/sqrt(tmp$values[tmp$values>0]))
+      if (sum(tmp$values>0)>1){V=V%*%tmp$vectors[,tmp$values>0]%*%diag(1/sqrt(tmp$values[tmp$values>0]))
+      }else {V=V%*%tmp$vectors[,tmp$values>0]/sqrt(tmp$values[tmp$values>0])}
     }
     
     trainproj=Xtrain%*%V
