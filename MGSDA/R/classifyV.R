@@ -39,41 +39,52 @@ classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T){
     }  
     Dis=matrix(testproj^2,ntest,2)-2*tcrossprod(testproj,means)+matrix(t(means^2),ntest,2,byrow=T)
     if (prior) Dis=Dis-matrix(2*log(c(sum(Ytrain==1),sum(Ytrain==2))/ntrain),ntest,2,byrow=T)
+    Ytest=apply(Dis,1,which.min)   
+    return(Ytest)
   } else{
     ######################################
     ######### G>2 ########################   
-    W=matrix(0,p,p)
-    for (g in 1:G){
-        W=W+(sum(Ytrain==g)-1)*cov(Xtrain)
-    }
-    W=W/(ntrain-1)
-    #A1=t(V)%*%t(Xtrain)%*%.constructCw(Ytrain)%*%Xtrain%*%V 
-    A1=t(V)%*%W%*%V
-    tmp=eigen(A1,symmetric=T)
-    if (min(tmp$values)>0){ V=V%*%tmp$vectors%*%diag(1/sqrt(tmp$values))
-    }else { # V is low rank
-      #return(rep(0,ntest))
-      if (sum(tmp$values>0)>1){V=V%*%tmp$vectors[,tmp$values>0]%*%diag(1/sqrt(tmp$values[tmp$values>0]))
-      }else {V=V%*%tmp$vectors[,tmp$values>0]/sqrt(tmp$values[tmp$values>0])}
-    }
+#     W=matrix(0,p,p)
+#     for (g in 1:G){
+#         W=W+(sum(Ytrain==g)-1)*cov(Xtrain)
+#     }
+#     W=W/(ntrain-1)
+#     #A1=t(V)%*%t(Xtrain)%*%.constructCw(Ytrain)%*%Xtrain%*%V 
+#     A1=t(V)%*%W%*%V
+#     tmp=eigen(A1,symmetric=T)
+#     if (min(tmp$values)>0){ V=V%*%tmp$vectors%*%diag(1/sqrt(tmp$values))
+#     }else { # V is low rank
+#       #return(rep(0,ntest))
+#       if (sum(tmp$values>0)>1){V=V%*%tmp$vectors[,tmp$values>0]%*%diag(1/sqrt(tmp$values[tmp$values>0]))
+#       }else {V=V%*%tmp$vectors[,tmp$values>0]/sqrt(tmp$values[tmp$values>0])}
+#     }
     
     trainproj=Xtrain%*%V
     testproj=Xtest%*%V
-    means=matrix(0,G,ncol(V))
-    ngroup=rep(0,G)
-    for (i in 1:G){
-      ngroup[i]=sum(Ytrain==i)
-      if ((ngroup[i]>1)&(ncol(V)>1)){ means[i,]=colMeans(trainproj[Ytrain==i,])
-      }else if (ncol(V)==1){
-          means[i,]=mean(trainproj[Ytrain==i,])
-      }else {means[i,]=trainproj[Ytrain==i,]}
+#     means=matrix(0,G,ncol(V))
+#     ngroup=rep(0,G)
+#     for (i in 1:G){
+#       ngroup[i]=sum(Ytrain==i)
+#       if ((ngroup[i]>1)&(ncol(V)>1)){ means[i,]=colMeans(trainproj[Ytrain==i,])
+#       }else if (ncol(V)==1){
+#           means[i,]=mean(trainproj[Ytrain==i,])
+#       }else {means[i,]=trainproj[Ytrain==i,]}
+#     }
+#     
+#     #currently have A as I
+#     Dis=matrix(rowSums(testproj^2),ntest,G)-2*tcrossprod(testproj,means)+matrix(rowSums(means^2),ntest,G,byrow=T)
+#     if (prior) Dis=Dis-matrix(2*log(ngroup/ntrain),ntest,G,byrow=T)
+
+#use lda classification
+    if (prior=T){
+        outlda=lda(trainproj,grouping=ytrain,tol=1e-16)
+    } else{
+        outlda=lda(trainproj,grouping=ytrain,prior=rep(1/max(ytrain),max(ytrain)),tol=1e-16)
     }
-    
-    #currently have A as I
-    Dis=matrix(rowSums(testproj^2),ntest,G)-2*tcrossprod(testproj,means)+matrix(rowSums(means^2),ntest,G,byrow=T)
-    if (prior) Dis=Dis-matrix(2*log(ngroup/ntrain),ntest,G,byrow=T)
+    ypredlda=predict(outlda,testproj)
+    return(ypredlda$class)
   }
   
-  Ytest=apply(Dis,1,which.min)   
-  return(Ytest)
+  #Ytest=apply(Dis,1,which.min)   
+  #return(Ytest)
 }
