@@ -9,7 +9,7 @@
 
 #V should be standardized so that V^tWV=I
 
-classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T){
+classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T,tol1=1e-10){
   p=ncol(Xtrain)
   if (ncol(Xtest)!=p){
     stop("Dimensions of Xtrain and Xtest don't match!")
@@ -44,21 +44,19 @@ classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T){
   } else{
     ######################################
     ######### G>2 ########################   
-#     W=matrix(0,p,p)
-#     for (g in 1:G){
-#         W=W+(sum(Ytrain==g)-1)*cov(Xtrain)
-#     }
-#     W=W/(ntrain-1)
-#     #A1=t(V)%*%t(Xtrain)%*%.constructCw(Ytrain)%*%Xtrain%*%V 
-#     A1=t(V)%*%W%*%V
-#     tmp=eigen(A1,symmetric=T)
-#     if (min(tmp$values)>0){ V=V%*%tmp$vectors%*%diag(1/sqrt(tmp$values))
-#     }else { # V is low rank
-#       #return(rep(0,ntest))
-#       if (sum(tmp$values>0)>1){V=V%*%tmp$vectors[,tmp$values>0]%*%diag(1/sqrt(tmp$values[tmp$values>0]))
-#       }else {V=V%*%tmp$vectors[,tmp$values>0]/sqrt(tmp$values[tmp$values>0])}
-#     }
-    
+    #need this even if use lda since prevents me from null variables (hopefully)
+    trainproj=Xtrain%*%V
+    testproj=Xtest%*%V
+    myg=ad.factor(ytrain)
+    group.means=tapply(trainproj,list(rep(myg,ncol(V)),col(trainproj)),mean)
+    A1=var(trainproj-group.means[myg,]) 
+    tmp=eigen(A1,symmetric=T)
+    if (min(tmp$values)>tol1){ V=V%*%tmp$vectors%*%diag(1/sqrt(tmp$values))
+    }else { # V is low rank
+        if (sum(tmp$values>tol1)>1){V=V%*%tmp$vectors[,tmp$values>tol1]%*%diag(1/sqrt(tmp$values[tmp$values>tol1]))
+        }else {V=V%*%tmp$vectors[,tmp$values>tol1]/sqrt(tmp$values[tmp$values>tol1])}
+    }
+        
     trainproj=Xtrain%*%V
     testproj=Xtest%*%V
 #     means=matrix(0,G,ncol(V))
