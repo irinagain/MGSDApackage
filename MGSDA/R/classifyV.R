@@ -76,10 +76,10 @@ classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T){
 #     if (prior) Dis=Dis-matrix(2*log(ngroup/ntrain),ntest,G,byrow=T)
 
 #use lda classification
-    if (prior=T){
-        outlda=lda(trainproj,grouping=ytrain,tol=1e-16)
+    if (prior==T){
+        outlda=lda(trainproj,grouping=Ytrain,tol=1e-16)
     } else{
-        outlda=lda(trainproj,grouping=ytrain,prior=rep(1/max(ytrain),max(ytrain)),tol=1e-16)
+        outlda=lda(trainproj,grouping=Ytrain,prior=rep(1/max(Ytrain),max(Ytrain)),tol=1e-16)
     }
     ypredlda=predict(outlda,testproj)
     return(ypredlda$class)
