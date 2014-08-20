@@ -47,14 +47,14 @@ classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T,tol1=1e-10){
     #need this even if use lda since prevents me from null variables (hopefully)
     trainproj=Xtrain%*%V
     testproj=Xtest%*%V
-    myg=ad.factor(ytrain)
+    myg=as.factor(Ytrain)
     group.means=tapply(trainproj,list(rep(myg,ncol(V)),col(trainproj)),mean)
     A1=var(trainproj-group.means[myg,]) 
     tmp=eigen(A1,symmetric=T)
     if (min(tmp$values)>tol1){ V=V%*%tmp$vectors%*%diag(1/sqrt(tmp$values))
     }else { # V is low rank
         if (sum(tmp$values>tol1)>1){V=V%*%tmp$vectors[,tmp$values>tol1]%*%diag(1/sqrt(tmp$values[tmp$values>tol1]))
-        }else {V=V%*%tmp$vectors[,tmp$values>tol1]/sqrt(tmp$values[tmp$values>tol1])}
+        }else {V=V%*%tmp$vectors[,tmp$values==max(tmp$values)]/sqrt(tmp$values[tmp$values==max(tmp$values)])}
     }
         
     trainproj=Xtrain%*%V
