@@ -5,8 +5,7 @@ function(W,D,lambda,eps=10^(-6),V=NULL,maxiter=10000){
   r=ncol(D)
   
   if (r==1){
-    #########################################
-    #V is a vector, this is just lasso
+    #V is a vector
     if (is.null(V)) V=rep(0,p)
     
     if (p==1){
@@ -14,8 +13,7 @@ function(W,D,lambda,eps=10^(-6),V=NULL,maxiter=10000){
       V
     }    
   } else{
-    ##################################################
-    #V is a matrix, group lasso
+    #V is a matrix
     if (is.null(V)) V=matrix(0,p,r)
 
     if (p==1){

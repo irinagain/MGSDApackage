@@ -1,6 +1,4 @@
-dLDA <-
-function(xtrain,ytrain,lambda,Vinit=NULL){
-  
+dLDA <-function(xtrain,ytrain,lambda,Vinit=NULL){ 
   if (nrow(xtrain)!=length(ytrain)){
     stop("Dimensions of xtrain and ytrain don't match!")
   } 
@@ -9,16 +7,17 @@ function(xtrain,ytrain,lambda,Vinit=NULL){
     stop("Missing values are not allowed")
   }
   
+  fsd=apply(xtrain,2,sd)
+  if (any(fsd)<1e-13){
+      stop(paste("Some features have standard deviation less than 1e-13!",sep=""))
+  }
   #center and scale X
   Xadj=scale(xtrain)
   coef=attr(Xadj,which="scaled:scale")
   
-  #check G
   G=max(ytrain)
   
   if (G==2){
-    #require(glmnet)
-    
     n1=sum(ytrain==1)
     n2=sum(ytrain==2)
     Ynew=ytrain
@@ -29,10 +28,8 @@ function(xtrain,ytrain,lambda,Vinit=NULL){
     V=as.matrix(out$beta)
     
   } else {   
-    #have W and D
     D=.constructD(Xadj,ytrain)
   
-    #solve for V with standardization in place
     if (is.null(Vinit)) {
       V=.solveVcoordf2(W=crossprod(Xadj)/(length(ytrain)-1),D=D,lambda=lambda)
     } else {

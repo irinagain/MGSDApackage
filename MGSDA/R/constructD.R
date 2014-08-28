@@ -1,16 +1,13 @@
-.constructD <-
-function(X,Y){
+.constructD <-function(X,Y){
   G=max(Y)
-  p=ncol(X)
-  
-  #determine group sizes
+  p=ncol(X)  
+
   ngroup=rep(0,G)
   for (i in (1:G)){
     ngroup[i]=sum(Y==i)
   }
   s=cumsum(ngroup)
   
-  #determine D
   D=matrix(0,p,G-1)
   for (i in 1:(G-1)){
     # more than 1 obs in group i+1
