@@ -8,7 +8,7 @@ Classification for MGSDA
 Classify observations in the test set using the supplied matrix of canonical vectors V and the training set.
 }
 \usage{
-classifyV(Xtrain, Ytrain, Xtest, V, prior = T)
+classifyV(Xtrain, Ytrain, Xtest, V, prior = T,tol1=1e-10)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,6 +26,9 @@ A pxr matrix of canonical vectors that is used to classify observations.
 }
   \item{prior}{
 A logical indicating whether to put larger weights to the groups of larger size; the default value is TRUE.
+}
+ \item{tol1}{
+ Tolerance level for the eigenvalues of \eqn{V^tWV}{V'WV}. If some eigenvalues are less than \code{tol}, the low-rank version of \code{V} is used for classification.
 }
 }
 \details{

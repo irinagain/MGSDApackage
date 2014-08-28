@@ -9,7 +9,7 @@ Chooses optimal tuning parameter lambda for function dLDA based on the m-fold cr
 }
 \usage{
 cv.dLDA(Xtrain, Ytrain, lambdaval = NULL, nl = 100, msep = 5, eps = 1e-6,
-    l_min_ratio = 0.01)
+    l_min_ratio = 0.01,myseed=NULL,prior=TRUE)
 }
 \arguments{
   \item{Xtrain}{
@@ -32,6 +32,12 @@ Tolerance level for the convergence of the optimization algorithm; the default v
 }
   \item{l_min_ratio}{
 Smallest value for lambda, as a fraction of \code{lambda.max}, the data-derived value for which all coefficients are zero; the default value is 0.01.
+}
+\item{myseed}{
+Optional specification of random seed for generating the folds; the default value is NULL.
+}
+\item{prior}{
+A logical indicating whether to put larger weights to the groups of larger size; the default value is TRUE.
 }
 }
 

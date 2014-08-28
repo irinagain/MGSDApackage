@@ -23,7 +23,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
     }
   
     nl=length(lambdaval)
-    error=matrix(0,msep,nl) =
+    error=matrix(0,msep,nl)
     features=matrix(p,msep,nl)
     
     if (!is.null(myseed)){set.seed(myseed)}
