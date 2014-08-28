@@ -10,7 +10,7 @@ Solve Multi-Group Sparse Discriminant Anlalysis problem for the supplied value o
 %where \eqn{W} is the within-group sample covariance matrix, \eqn{D} is the matrix of sample orthogonal %mean contrasts between the groups and \eqn{\lambda\sum_{i=1}^{p}\|v_{i}\|_{2}}{\lambda*penalty} is the sparsity penalty.
 }
 \usage{
-dLDA(xtrain, ytrain, lambda, Vinit = NULL)
+dLDA(xtrain, ytrain, lambda, Vinit = NULL,eps=1e-6)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,10 +26,13 @@ dLDA(xtrain, ytrain, lambda, Vinit = NULL)
   \item{Vinit}{
     A px(G-1) optional initial value for the optimization algorithm; the default value is NULL.
 }
+\item{eps}{
+    Tolerance level for the convergence of the optimization algorithm; the default value is 1e-6.
+}
 }
 \details{
 Solves the following optimization problem:
-\deqn{\min_V \frac12 Tr(V^tWV)+\frac12\|D^tV-I\|^2_F+\lambda\sum_{i=1}^p\|v_i\|_2.}{
+\deqn{\min_V \frac12 Tr(V^tWV)+\frac12\|D^tV-I\|^2_F+\lambda\sum_{i=1}^p\|v_i\|_2}{
 min_V \{1/2*Tr(V'WV+V'DD'V-2D'V)+lambda*sum(||v_i||_2)\}.
 }
 Here W is the within-group sample covariance matrix and D is the matrix of orthogonal contrasts between the group means, both are constructed based on the supplied values of \code{xtrain} and \code{ytrain}.

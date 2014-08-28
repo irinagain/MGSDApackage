@@ -41,9 +41,9 @@ Smallest value for lambda, as a fraction of \code{lambda.max}, the data-derived 
 
 \value{
  \item{lambdaval}{The sequence of tuning parameters used}
- \item{error}{The mean cross-validated number of misclassified observations - a vector of length length(lambdaval)}
+ \item{error}{The mean cross-validated number of misclassified observations - a vector of length \code{length(lambdaval)}}
  \item{lambda}{The value of tuning parameter that has the minimal mean cross-validation error}
- \item{f}{The mean cross-validated number of non-zero features - a vector of length length(lambdaval)}
+ \item{f}{The mean cross-validated number of non-zero features - a vector of length \code{length(lambdaval)}}
 }
 \references{
 I.Gaynanova, J.Booth and M.Wells (2014). "Simultaneous sparse estimation of canonical vectors in the p>>N setting"

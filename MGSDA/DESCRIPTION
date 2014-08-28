@@ -1,7 +1,7 @@
 Package: MGSDA
 Type: Package
 Title: Multi-Group Sparse Discriminant Analysis
-Version: 1.0.1
+Version: 1.1
 Date: 2014-07-07
 Author: Irina Gaynanova
 Maintainer: Irina Gaynanova <ig93@cornell.edu>
