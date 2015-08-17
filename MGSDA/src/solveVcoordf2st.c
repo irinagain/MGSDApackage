@@ -118,8 +118,7 @@ void blockUpdate2(double *D, double *W,double *V, double *lambda, int *p, int *r
           tmp[l]=D[k+l*(*p)]-colsum+V[k+l*(*p)];
       }
 
-      normt=0;
-      mul(&tmp[0],&tmp[0],r,&normt); //this makes normt=sum(tmp^2)
+      normt=mul(&tmp[0],&tmp[0],r); //this makes normt=sum(tmp^2)
       normt=sqrt(normt);
 
       if (normt<= *lambda){
@@ -148,10 +147,7 @@ void coordUpdate(double *D, double *W,double *V, double *lambda, int *p, double 
   *errV=0;
   for (k=0; k<*p; k++)
     {
-      //k=cursample[i]-1; //indexing in C starts from 0 so when I refer to k, need to adjust its number by 1
-
-      colsum=0;
-      mul(&W[k*(*p)],V,p,&colsum);//this multiplies W2[k,] by V[,l]
+      colsum=mul(&W[k*(*p)],V,p);//this multiplies W2[k,] by V[,l]
       colsum=D[k]-colsum+V[k];
       
       v_old=V[k];
