@@ -46,9 +46,9 @@ void blockUpdate2(double *D, double *W,double *V, double *lambda, int *p, int *r
       //k=cursample[i]-1; //indexing in C starts from 0 so when I refer to k, need to adjust its number by 1
       
       for (l=0;l<*r;l++){
-	colsum=0;
-	mulV(&W[k*(*p)],V,p,&l,&colsum);//this multiplies W2[k,] by V[,l]
-	tmp[l]=D[k+l*(*p)]-colsum+V[k+l*(*p)];
+          colsum=0;
+          mulV(&W[k*(*p)],V,p,&l,&colsum);//this multiplies W2[k,] by V[,l]
+          tmp[l]=D[k+l*(*p)]-colsum+V[k+l*(*p)];
       }
 
       normt=0;
@@ -56,18 +56,18 @@ void blockUpdate2(double *D, double *W,double *V, double *lambda, int *p, int *r
       normt=sqrt(normt);
 
       if (normt<= *lambda){
-	for (l=0;l<*r;l++){
-	   v_old=V[k+l*(*p)];
-	   V[k+l*(*p)]=0; //V[i,j]=V[j*(*Nrow)+i]
-	   *errV=max(*errV,fabs(v_old-V[k+l*(*p)]));
-	}
+          for (l=0;l<*r;l++){
+              v_old=V[k+l*(*p)];
+              V[k+l*(*p)]=0; //V[i,j]=V[j*(*Nrow)+i]
+              *errV=max(*errV,fabs(v_old-V[k+l*(*p)]));
+          }
       }
       else{
-	for (l=0;l<*r;l++){
-	  v_old=V[k+l*(*p)];
-	  V[k+l*(*p)]=(1-*lambda/normt)*tmp[l];
-	  *errV=max(*errV,fabs(v_old-V[k+l*(*p)]));
-	}
+          for (l=0;l<*r;l++){
+              v_old=V[k+l*(*p)];
+              V[k+l*(*p)]=(1-*lambda/normt)*tmp[l];
+              *errV=max(*errV,fabs(v_old-V[k+l*(*p)]));
+          }
       }
     }
 }
