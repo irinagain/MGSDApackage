@@ -18,14 +18,15 @@ dLDA <-function(xtrain,ytrain,lambda,Vinit=NULL,eps=1e-6){
   G=max(ytrain)
   
   if (G==2){
+    n=length(ytrain)
+    Z=matrix(0,n,2)
+    for (g in 1:2){
+        Z[ytrain==g,g]=1
+    }
     n1=sum(ytrain==1)
-    n2=sum(ytrain==2)
-    Ynew=ytrain
-    Ynew[ytrain==1]=-(n1+n2)/n1
-    Ynew[ytrain==2]=(n1+n2)/n2
-    
-    out=glmnet(Xadj,Ynew,family="gaussian",alpha=1,standardize=F,lambda=lambda)
-    V=as.matrix(out$beta)
+    n2=n-n1
+    Ytilde=sqrt(n1*n2/n)*Z%*%c(1/n1,-1/n2)
+    V=solveMyLasso_c(Xadj,Ytilde,lambda=lambda)
     
   } else {   
     D=.constructD(Xadj,ytrain)
