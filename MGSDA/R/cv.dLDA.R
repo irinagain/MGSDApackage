@@ -1,4 +1,4 @@
-cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_ratio=0.01,myseed=NULL,prior=TRUE){
+cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=50,msep=5,eps=1e-6,l_min_ratio=0.01,myseed=NULL,prior=TRUE){
   if (any(is.na(Xtrain))|any(is.na(Ytrain))) 
     stop("Missing values are not allowed!")
   
@@ -16,17 +16,16 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
   }
   
   if (G==2){
-      n=length(Ytrain)
       Z=matrix(0,n,2)
       for (g in 1:2){
           Z[Ytrain==g,g]=1
       }
       n1=sum(Ytrain==1)
       n2=n-n1
-      Ytilde=sqrt(n1*n2/n)*Z%*%c(1/n1,-1/n2)
+      Ytilde=sqrt(n1*n2)*Z%*%c(1/n1,-1/n2)
 
      #calculate lambda path
-    l_max=max(abs(crossprod(scale(Xtrain),Ytilde)))
+    l_max=max(abs(crossprod(scale(Xtrain),Ytilde)))/n
     if (!is.null(lambdaval)){
         lambdaval=lambdaval[lambdaval<=l_max]
         nl=length(lambdaval)
@@ -47,7 +46,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
       Xadj=scale(xtrain)
       coef=attr(Xadj,which="scaled:scale")
       mtrain=attr(Xadj,which="scaled:center")
-      ytrain=Ynew[id!=i]
+      ytrain=Ytrain[id!=i]
       xtest=Xtrain[id==i,]
       xtest=scale(xtest,center=mtrain,scale=coef) 
       ytest=Ytrain[id==i]
@@ -56,13 +55,14 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
       Znew=Z[id!=i,]
       n1=sum(ytrain==1)
       n2=nnew-n1
-      Ytilde=sqrt(n1*n2/nnew)*Znew%*%c(1/n1,-1/n2)
+      Ytilde=sqrt(n1*n2)*Znew%*%c(1/n1,-1/n2)
       V=rep(0,p)
 
       for (j in 1:nl){  
         V=solveMyLasso_c(Xadj,Ytilde,lambda=lambdaval[j],binit=V)
        ypred=classifyV(Xadj,ytrain,xtest,V,prior=prior)
        error[i,j]=sum(ypred!=ytest) #how many features are selected
+       features[i,j]=sum(V!=0)
       }
     }
     errormean=colMeans(error)

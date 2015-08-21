@@ -25,7 +25,7 @@ dLDA <-function(xtrain,ytrain,lambda,Vinit=NULL,eps=1e-6){
     }
     n1=sum(ytrain==1)
     n2=n-n1
-    Ytilde=sqrt(n1*n2/n)*Z%*%c(1/n1,-1/n2)
+    Ytilde=sqrt(n1*n2)*Z%*%c(1/n1,-1/n2)
     V=solveMyLasso_c(Xadj,Ytilde,lambda=lambda)
     
   } else {   
