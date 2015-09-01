@@ -21,7 +21,8 @@ function(W,D,lambda,eps=10^(-6),V=NULL,maxiter=10000){
       V
     }
   }
-  outc=.solveVcoordf2C(D,W,V,lambda,p,r,eps,maxiter)
+  niter=0;
+  outc=.C("solveVcoordf2", as.double(as.vector(D)),as.double(as.vector(W)),as.double(as.vector(V)),as.double(lambda),as.integer(p),as.integer(r),as.double(eps),as.integer(maxiter),as.integer(niter))
   if (outc[[9]]>=maxiter) warning(paste("Convergence was not achieved for l=",lambda,sep=""))
   V=matrix(outc[[3]],p,r)
   V[abs(V)<eps]=0

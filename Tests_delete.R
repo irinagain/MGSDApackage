@@ -81,4 +81,23 @@ Y=sqrt(n)*(Z%*%H)
 D=constructD(xtrain,ytrain)
 newD=t(xtrain)%*%Y/n
 
-
+#Old time versus new time
+# For G=3, check that my LASSO solver works
+G=3
+r=G-1
+n=200
+p=1000
+ytrain=rep(1:G,each=n/G)
+n=length(ytrain)
+set.seed(1)
+xtrain = matrix(rnorm(p*n),n,p)
+a=proc.time()
+out=dLDA(xtrain,ytrain,lambda=0.05)
+b=proc.time()-a
+b
+library(microbenchmark) # old code, ~512 milliseconds median, min ~424, max ~957
+# new code, ~183 milliseconds median, min ~170, max ~455!!!! much faster
+microbenchmark(
+    out=dLDA(xtrain,ytrain,lambda=0.05)
+    )
+sum(rowSums(out)!=0)

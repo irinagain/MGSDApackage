@@ -235,7 +235,6 @@ void solveVcoordf2(double *D, double *W,double *V, double *lambda, int *p, int *
 
   // int i;
   double errV;
-  //int cursample[*p];
 
   *niter=0;
   if(*r>1){
