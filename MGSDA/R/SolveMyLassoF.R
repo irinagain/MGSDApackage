@@ -1,5 +1,5 @@
 # Solves 1/2n |Y-Xbeta|^2_F+lambda|beta|_1
-solveMyLassoF_c<-function(X,Y,lambda,binit=NULL,eps=1e-4,maxiter=1000){
+.solveMyLassoF_c<-function(X,Y,lambda,binit=NULL,eps=1e-4,maxiter=1000){
     p=ncol(X)
     n=nrow(Y)
     r=ncol(Y)

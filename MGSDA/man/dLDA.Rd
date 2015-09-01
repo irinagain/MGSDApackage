@@ -10,7 +10,7 @@ Solve Multi-Group Sparse Discriminant Anlalysis problem for the supplied value o
 %where \eqn{W} is the within-group sample covariance matrix, \eqn{D} is the matrix of sample orthogonal %mean contrasts between the groups and \eqn{\lambda\sum_{i=1}^{p}\|v_{i}\|_{2}}{\lambda*penalty} is the sparsity penalty.
 }
 \usage{
-dLDA(xtrain, ytrain, lambda, Vinit = NULL,eps=1e-6)
+dLDA(xtrain, ytrain, lambda, Vinit = NULL,eps=1e-6,maxiter=1000)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,6 +28,9 @@ dLDA(xtrain, ytrain, lambda, Vinit = NULL,eps=1e-6)
 }
 \item{eps}{
     Tolerance level for the convergence of the optimization algorithm; the default value is 1e-6.
+}
+\item{maxiter}{
+    Maximal number of iterations for the optimization algorithm; the default value is 1000.
 }
 }
 \details{

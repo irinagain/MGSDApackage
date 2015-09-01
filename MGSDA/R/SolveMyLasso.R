@@ -1,5 +1,5 @@
 # Solves 1/2n |Y-Xbeta|^2_2+lambda|beta|_1
-solveMyLasso_c<-function(X,Y,lambda,binit=NULL,eps=1e-4,maxiter=1000){
+.solveMyLasso_c<-function(X,Y,lambda,binit=NULL,eps=1e-4,maxiter=1000){
     p=ncol(X)
     n=length(Y)
     if (is.null(binit)){binit=rep(0,p)}

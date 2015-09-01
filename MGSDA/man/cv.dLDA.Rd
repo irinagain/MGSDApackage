@@ -8,7 +8,7 @@ Cross-validation for MGSDA
 Chooses optimal tuning parameter lambda for function dLDA based on the m-fold cross-validation mean squared error
 }
 \usage{
-cv.dLDA(Xtrain, Ytrain, lambdaval = NULL, nl = 100, msep = 5, eps = 1e-6,
+cv.dLDA(Xtrain, Ytrain, lambdaval = NULL, nl = 50, msep = 5, eps = 1e-6,
     l_min_ratio = 0.01,myseed=NULL,prior=TRUE)
 }
 \arguments{
@@ -22,7 +22,7 @@ A N vector containing the group labels. Should be coded as 1,2,...,G, where G is
 Optional user-supplied sequence of tuning parameters; the default value is NULL and \code{cv.dLDA} chooses its own sequence
 }
   \item{nl}{
-Number of lambda values; the default value is 100
+Number of lambda values; the default value is 50
 }
   \item{msep}{
 Number of cross-validation folds; the default value is 5

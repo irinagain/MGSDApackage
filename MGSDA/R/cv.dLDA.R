@@ -59,7 +59,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=50,msep=5,eps=1e-6,l_min_ratio
       V=rep(0,p)
 
       for (j in 1:nl){  
-        V=solveMyLasso_c(Xadj,Ytilde,lambda=lambdaval[j],binit=V)
+        V=.solveMyLasso_c(Xadj,Ytilde,lambda=lambdaval[j],binit=V)
        ypred=classifyV(Xadj,ytrain,xtest,V,prior=prior)
        error[i,j]=sum(ypred!=ytest) #how many features are selected
        features[i,j]=sum(V!=0)
@@ -71,7 +71,6 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=50,msep=5,eps=1e-6,l_min_ratio
     return(obj) 
   } else{
     #multiple group case
-    #D=.constructD(scale(Xtrain),Ytrain)
     Ytilde=.createY(Ytrain)
     l_max=max(abs(crossprod(scale(Xtrain),Ytilde)))/n
     if (!is.null(lambdaval)){
@@ -99,15 +98,12 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=50,msep=5,eps=1e-6,l_min_ratio
       xtest=scale(xtest,center=mtrain,scale=coef) 
       ytest=Ytrain[id==i]
       
-      #D=.constructD(Xadj,ytrain)
-      #Tot=crossprod(Xadj)/(length(ytrain)-1)
       Ytilde=.createY(ytrain)
       V=matrix(0,p,G-1)
       error[i,1:nl]=length(ytest)
     
       for (j in 1:nl){  
-        V=solveMyLassoF_c(Xadj,Ytilde,lambda=lambdaval[j],binit=V)
-        #V=.solveVcoordf2(Tot,D,lambdaval[j],eps=eps,V=V)
+        V=.solveMyLassoF_c(Xadj,Ytilde,lambda=lambdaval[j],binit=V)
         features[i,j]=sum(rowSums(V)!=0) 
       
         if (features[i,j]>p-1){
