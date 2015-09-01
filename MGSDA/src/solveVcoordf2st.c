@@ -47,7 +47,7 @@ void colNorm(double *X, int *n, int* p, double* normx){
 }
 
 //Function for one round of coordinate update
-void coordUpdateLasso(double *X, double *Y,double *beta, double *lambda, int *n, int *p, double *errb,double *residual, double *normx)
+void coordUpdateLasso(double *X,double *beta, double *lambda, int *n, int *p, double *errb,double *residual, double *normx)
 {
   int k,j;
   double colsum;
@@ -82,8 +82,85 @@ void solveMyLasso(double *X, double *Y,double *beta, double *lambda, int *p, int
   *niter=0;
     do{
       ++*niter;
-      coordUpdateLasso(X,Y,beta,lambda,n,p,&errb,&residual[0],&normx[0]);
+      coordUpdateLasso(X,beta,lambda,n,p,&errb,&residual[0],&normx[0]);
     }while ((errb>*eps)&&(*niter<*maxiter));
+}
+
+//Function for one round of block update, here V is matrix
+void blockUpdateLasso(double *X,double *V, double *lambda, int *n, int *p, int *r, double *errV,double *residual, double *normx)
+{
+  int k,j,l;
+  double normt,v_old;
+  double T[*r];
+
+  *errV=0;
+  for (k=0; k<*p; k++)
+    {
+      //calculate T
+      for (l=0;l<*r;l++){ 
+        T[l]=mul(&X[k*(*n)],&residual[l*(*n)],n)/(*n)+normx[k]*V[k+l*(*p)];// be careful with residual indexing
+      }
+      
+      //calculate L_2 norm of T
+      normt=mul(&T[0],&T[0],r); //this makes normt=sum(T^2)
+      normt=sqrt(normt);
+      
+      //update kth row of V
+      if (normt<= *lambda){
+          for (l=0;l<*r;l++){
+              v_old=V[k+l*(*p)];
+              V[k+l*(*p)]=0; //V[i,j]=V[j*(*Nrow)+i]
+              //update residual
+              for (j=0; j<*n;j++){
+                residual[j+l*(*n)]+=(v_old-V[k+l*(*p)])*X[j+k*(*n)];
+              }   
+              *errV=max(*errV,fabs(v_old));
+          }
+      }
+      else{
+          for (l=0;l<*r;l++){
+              v_old=V[k+l*(*p)];
+              V[k+l*(*p)]=(1-*lambda/normt)*T[l]/normx[k];
+              //update residual
+              for (j=0; j<*n;j++){
+                residual[j+l*(*n)]+=(v_old-V[k+l*(*p)])*X[j+k*(*n)];
+              }  
+              *errV=max(*errV,fabs(v_old-V[k+l*(*p)]));
+          }
+      }
+    }
+}
+
+//function for residual that is a matrux
+void resF(double *X, double *Y, double *beta, int *n, int *p, int *r, double *residual){
+    int j,k,l;
+    for (j=0; j<*n;j++){
+        for (l=0; l<*r; ++l){
+            residual[j+l*(*n)]=Y[j+l*(*n)];
+            for (k=0; k<*p; ++k){
+                residual[j+l*(*n)]-=X[j+k*(*n)]*beta[k+l*(*p)];
+            }
+        }
+    }
+}
+
+//Complete lasso solver with Frobenius norm
+void solveMyLassoF(double *X, double *Y,double *beta, double *lambda, int *p, int *n, int *r, double *eps, int *maxiter,int *niter){
+
+  double errV;
+  double residual[(*n)*(*r)]; //this is a n times r matrix
+  double normx[*p]; //this is a vector of length p
+
+    //calculate the current residual between y and Xbeta
+    resF(X,Y,beta,n,p,r,&residual[0]);
+    //calculate l2 norm of each column of X standardized by n
+    colNorm(X,n,p,&normx[0]);
+
+  *niter=0;
+    do{
+      ++*niter;
+      blockUpdateLasso(X,beta,lambda,n,p,r,&errV,&residual[0],&normx[0]);
+    }while ((errV>*eps)&&(*niter<*maxiter));
 }
 
 ////////////////////////
@@ -109,9 +186,7 @@ void blockUpdate2(double *D, double *W,double *V, double *lambda, int *p, int *r
 
   *errV=0;
   for (k=0; k<*p; k++)
-    {
-      //k=cursample[i]-1; //indexing in C starts from 0 so when I refer to k, need to adjust its number by 1
-      
+    {      
       for (l=0;l<*r;l++){
           colsum=0;
           mulV(&W[k*(*p)],V,p,&l,&colsum);//this multiplies W2[k,] by V[,l]
