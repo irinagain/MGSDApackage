@@ -101,3 +101,5 @@ microbenchmark(
     out=dLDA(xtrain,ytrain,lambda=0.05)
     )
 sum(rowSums(out)!=0)
+
+outcv=cv.dLDA(xtrain,ytrain)

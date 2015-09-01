@@ -71,17 +71,16 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=50,msep=5,eps=1e-6,l_min_ratio
     return(obj) 
   } else{
     #multiple group case
-    D=.constructD(scale(Xtrain),Ytrain)
-    l_max=max(sqrt(rowSums(D^2)))
-    rm(D)
-    
+    #D=.constructD(scale(Xtrain),Ytrain)
+    Ytilde=.createY(Ytrain)
+    l_max=max(abs(crossprod(scale(Xtrain),Ytilde)))/n
     if (!is.null(lambdaval)){
-      lambdaval=lambdaval[lambdaval<=l_max]
-      nl=length(lambdaval)
-      if (nl<2) stop("There should be at least two lambdas")
+        lambdaval=lambdaval[lambdaval<=l_max]
+        nl=length(lambdaval)
+        if (nl<2) stop("There should be at least two lambdas")
     }
     else {
-      lambdaval=10^seq(log10(l_min_ratio*l_max),log10(l_max),length.out=nl)
+        lambdaval=10^seq(log10(l_min_ratio*l_max),log10(l_max),length.out=nl)
     }
     lambdaval=sort(lambdaval,decreasing=T)
     
@@ -100,13 +99,15 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=50,msep=5,eps=1e-6,l_min_ratio
       xtest=scale(xtest,center=mtrain,scale=coef) 
       ytest=Ytrain[id==i]
       
-      D=.constructD(Xadj,ytrain)
-      Tot=crossprod(Xadj)/(length(ytrain)-1)
+      #D=.constructD(Xadj,ytrain)
+      #Tot=crossprod(Xadj)/(length(ytrain)-1)
+      Ytilde=.createY(ytrain)
       V=matrix(0,p,G-1)
       error[i,1:nl]=length(ytest)
     
       for (j in 1:nl){  
-        V=.solveVcoordf2(Tot,D,lambdaval[j],eps=eps,V=V)
+        V=solveMyLassoF_c(Xadj,Ytilde,lambda=lambdaval[j],binit=V)
+        #V=.solveVcoordf2(Tot,D,lambdaval[j],eps=eps,V=V)
         features[i,j]=sum(rowSums(V)!=0) 
       
         if (features[i,j]>p-1){
