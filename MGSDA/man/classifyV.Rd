@@ -48,7 +48,7 @@ Returns a vector of length M with predicted group labels for the test set.
 %% ...
 }
 \references{
-I.Gaynanova, J.Booth and M.Wells (2014) "Simultaneous Sparse Estimation of Canonical Vectors in the p>>N setting."
+I.Gaynanova, J.Booth and M.Wells (2015) "Simultaneous Sparse Estimation of Canonical Vectors in the p>>N setting.", JASA, to appear
 }
 \author{
 Irina Gaynanova

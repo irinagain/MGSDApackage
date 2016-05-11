@@ -40,7 +40,7 @@ min_V \{1/2*Tr(V'WV+V'DD'V-2D'V)+lambda*sum(||v_i||_2)\}.
 }
 Here W is the within-group sample covariance matrix and D is the matrix of orthogonal contrasts between the group means, both are constructed based on the supplied values of \code{xtrain} and \code{ytrain}.
 
-When \eqn{G=2}{G=2}, the above row penalty reduces to vector L_1 penalty and the function uses \code{glmnet} subroutine to solve the optimization problem.
+When \eqn{G=2}{G=2}, the above row penalty reduces to vector L_1 penalty.
 }
 \value{
 Returns a px(G-1) matrix of canonical vectors V.
@@ -51,7 +51,7 @@ Returns a px(G-1) matrix of canonical vectors V.
 %% ...
 }
 \references{
-I.Gaynanova, J.Booth and M.Wells (2014) "Simultaneous Sparse Estimation of Canonical Vectors in the p>>N setting"
+I.Gaynanova, J.Booth and M.Wells (2015) "Simultaneous Sparse Estimation of Canonical Vectors in the p>>N setting", JASA, to appear
 }
 \author{
 Irina Gaynanova

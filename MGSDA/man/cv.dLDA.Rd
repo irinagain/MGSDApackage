@@ -9,7 +9,7 @@ Chooses optimal tuning parameter lambda for function dLDA based on the m-fold cr
 }
 \usage{
 cv.dLDA(Xtrain, Ytrain, lambdaval = NULL, nl = 50, msep = 5, eps = 1e-6,
-    l_min_ratio = 0.01,myseed=NULL,prior=TRUE)
+    l_min_ratio = ifelse(n<p,0.1,0.0001),myseed=NULL,prior=TRUE)
 }
 \arguments{
   \item{Xtrain}{
@@ -31,7 +31,7 @@ Number of cross-validation folds; the default value is 5
 Tolerance level for the convergence of the optimization algorithm; the default value is 1e-6
 }
   \item{l_min_ratio}{
-Smallest value for lambda, as a fraction of \code{lambda.max}, the data-derived value for which all coefficients are zero; the default value is 0.01.
+Smallest value for lambda, as a fraction of \code{lambda.max}, the data-derived value for which all coefficients are zero; the default value is 0.1 if the number of samples \code{n} is larger than the number of variables \code{p}, and is 0.001 otherwise.
 }
 \item{myseed}{
 Optional specification of random seed for generating the folds; the default value is NULL.
@@ -52,7 +52,7 @@ A logical indicating whether to put larger weights to the groups of larger size;
  \item{f}{The mean cross-validated number of non-zero features - a vector of length \code{length(lambdaval)}}
 }
 \references{
-I.Gaynanova, J.Booth and M.Wells (2014). "Simultaneous sparse estimation of canonical vectors in the p>>N setting"
+I.Gaynanova, J.Booth and M.Wells (2015). "Simultaneous sparse estimation of canonical vectors in the p>>N setting", JASA, to appear
 }
 \author{
 Irina Gaynanova
