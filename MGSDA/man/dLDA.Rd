@@ -37,7 +37,7 @@ dLDA(xtrain, ytrain, lambda, Vinit = NULL,eps=1e-6,maxiter=1000,rho=0.01)
 }
 \details{
 Solves the following optimization problem:
-\deqn{\min_V \frac12 Tr(V^tWV+\rho V^tDD^tV)-\Tr(D^tV)+\lambda\sum_{i=1}^p\|v_i\|_2}{
+\deqn{\min_V \frac12 Tr(V^tWV+\rho V^tDD^tV)-Tr(D^tV)+\lambda\sum_{i=1}^p\|v_i\|_2}{
 min_V \{1/2*Tr(V'WV+rho*V'DD'V-2D'V)+lambda*sum(||v_i||_2)\}.
 }
 Here W is the within-group sample covariance matrix and D is the matrix of orthogonal contrasts between the group means, both are constructed based on the supplied values of \code{xtrain} and \code{ytrain}.

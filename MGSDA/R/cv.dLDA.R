@@ -38,7 +38,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
       }
 
      #calculate lambda path
-    l_max <- max(abs(scale(Xtrain),Ytilde))/n
+    l_max <- max(abs(crossprod(scale(Xtrain),Ytilde)))/n
     if (!is.null(lambdaval)){
         lambdaval <- lambdaval[lambdaval<=l_max]
         nl <- length(lambdaval)
