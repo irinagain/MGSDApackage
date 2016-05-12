@@ -38,6 +38,17 @@ void res(double *X, double *Y, double *beta, int *n, int *p, double *residual){
     }
 }
 
+//function for weighted residual
+void resW(double *X, double *Y, double *beta, int *n, int *p, double *residual, double *W){
+    int j,k;
+    for (j=0; j<*n;j++){
+        residual[j]=Y[j];
+        for (k=0; k<*p; ++k){
+            residual[j]-=X[j+k*(*n)]*beta[k];
+        }
+    }
+}
+
 //function for calculating normx=colSums(x^2)/n
 void colNorm(double *X, int *n, int* p, double* normx){
   int index;
@@ -160,5 +171,26 @@ void solveMyLassoF(double *X, double *Y,double *beta, double *lambda, int *p, in
     do{
       ++*niter;
       blockUpdateLasso(X,beta,lambda,n,p,r,&errV,&residual[0],&normx[0]);
+    }while ((errV>*eps)&&(*niter<*maxiter));
+}
+
+//Complete lasso solver for weighted lasso, i.e. X'WX, and X'Y, with Frobenius norm
+void solveMyLassoFW(double *X, double *Y,double *W, double *beta, double *lambda, int *p, int *n, int *r, double *eps, int *maxiter,int *niter){
+    
+    double errV;
+    double residual[(*n)*(*r)]; //this is a n times r matrix
+    double normx[*p]; //this is a vector of length p
+    
+    //
+    
+    //calculate the current residual between y and Xbeta
+    resF(X,Y,beta,n,p,r,&residual[0]);
+    //calculate l2 norm of each column of X standardized by n
+    colNorm(X,n,p,&normx[0]);
+    
+    *niter=0;
+    do{
+        ++*niter;
+        blockUpdateLasso(X,beta,lambda,n,p,r,&errV,&residual[0],&normx[0]);
     }while ((errV>*eps)&&(*niter<*maxiter));
 }
