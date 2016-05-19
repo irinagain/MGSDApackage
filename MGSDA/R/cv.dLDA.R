@@ -1,4 +1,4 @@
-cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_ratio=ifelse(n<p,0.1,0.0001),myseed=NULL,prior=TRUE,rho=0.01){
+cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_ratio=ifelse(n<p,0.1,0.0001),myseed=NULL,prior=TRUE,rho=1){
     
   if (any(is.na(Xtrain))|any(is.na(Ytrain))) 
     stop("Missing values are not allowed!")
@@ -35,6 +35,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
           Y_w <- Ytilde/sqrt(rho)
       }else{
           X_w <- scale(Xtrain)
+          Y_w <-Ytilde
       }
 
      #calculate lambda path
@@ -74,6 +75,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
           Y_w <- Ytilde/sqrt(rho)
       }else{
           X_w <- Xadj
+          Y_w <- Ytilde
       }
       
       V <- matrix(0,p,1)
@@ -81,7 +83,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
       for (j in 1:nl){  
         V <- .solveMyLasso_c(X_w,Y_w,lambda=lambdaval[j],binit=V)
         ypred <- classifyV(Xadj,ytrain,xtest,V,prior=prior)
-        error[i,j] <- sum(ypred!=ytest)/length(ytest) #how many features are selected
+        error[i,j] <- sum(ypred!=ytest)/length(ytest) 
         features[i,j] <- sum(V!=0)
         if (features[i,j]>=min(n,p)){
             break
@@ -100,6 +102,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
         Y_w <- Ytilde/sqrt(rho)
     }else{
         X_w <- scale(Xtrain)
+        Y_w <- Ytilde
     }
     l_max <- max(abs(crossprod(scale(Xtrain),Ytilde)))/n
     if (!is.null(lambdaval)){
@@ -132,6 +135,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
           Y_w <- Ytilde/sqrt(rho)
       }else{
           X_w <- Xadj
+          Y_w <- Ytilde
       }
       V <- matrix(0,p,G-1)
     

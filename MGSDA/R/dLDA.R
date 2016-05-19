@@ -1,4 +1,4 @@
-dLDA <-function(xtrain,ytrain,lambda,Vinit=NULL,eps=1e-6,maxiter=1000,rho=0.01){ 
+dLDA <-function(xtrain,ytrain,lambda,Vinit=NULL,eps=1e-6,maxiter=1000,rho=1){ 
   if (nrow(xtrain)!=length(ytrain)){
     stop("Dimensions of xtrain and ytrain don't match!")
   } 
