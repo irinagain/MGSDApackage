@@ -49,8 +49,9 @@ A logical indicating whether to put larger weights to the groups of larger size;
 
 \value{
  \item{lambdaval}{The sequence of tuning parameters used}
- \item{error}{The mean cross-validated number of misclassified observations - a vector of length \code{length(lambdaval)}}
- \item{lambda}{The value of tuning parameter that has the minimal mean cross-validation error}
+ \item{error_mean}{The mean cross-validated number of misclassified observations - a vector of length \code{length(lambdaval)}}
+ \item{error_se}{The standard error associated with each value of \code{error_mean}}
+ \item{lambda_min}{The value of tuning parameter that has the minimal mean cross-validation error}
  \item{f}{The mean cross-validated number of non-zero features - a vector of length \code{length(lambdaval)}}
 }
 \references{

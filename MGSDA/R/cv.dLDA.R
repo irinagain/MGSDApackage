@@ -35,10 +35,10 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
           Y_w <- Ytilde/sqrt(rho)
       }else{
           X_w <- scale(Xtrain)
-          Y_w <-Ytilde
+          Y_w <- Ytilde
       }
 
-     #calculate lambda path
+    #calculate lambda path
     l_max <- max(abs(crossprod(scale(Xtrain),Ytilde)))/n
     if (!is.null(lambdaval)){
         lambdaval <- lambdaval[lambdaval<=l_max]
@@ -50,7 +50,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
     }
     lambdaval <- sort(lambdaval,decreasing=T)
   
-    error <- matrix(1,msep,nl)
+    error <- matrix(1, n, nl)
     features <- matrix(min(n,p),msep,nl)
       
     cat("Fold")
@@ -83,16 +83,17 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
       for (j in 1:nl){  
         V <- .solveMyLasso_c(X_w,Y_w,lambda=lambdaval[j],binit=V)
         ypred <- classifyV(Xadj,ytrain,xtest,V,prior=prior)
-        error[i,j] <- sum(ypred!=ytest)/length(ytest) 
+        error[id == i, j] <- ypred != ytest 
         features[i,j] <- sum(V!=0)
         if (features[i,j]>=min(n,p)){
             break
         }
       }
     }
-    errormean <- colMeans(error)
-    j <- which.min(errormean)
-    obj <- list(lambda=lambdaval[j],error=colMeans(error),f=round(colMeans(features)),lambdaval=lambdaval)
+    error_mean <- colMeans(error)
+    error_se <- apply(error,2,sd)/sqrt(n)
+    j <- which.min(error_mean)
+    obj <- list(lambda_min=lambdaval[j],error_mean=error_mean,error_se=error_se, f=round(colMeans(features)),lambdaval=lambdaval)
     return(obj) 
   } else{
     #multiple group case
@@ -114,7 +115,7 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
     }
     lambdaval <- sort(lambdaval,decreasing=T)
     
-    error <- matrix(1,msep,nl) 
+    error <- matrix(1,n,nl) 
     features <- matrix(min(n,p),msep,nl)
   
     cat("Fold")
@@ -145,17 +146,18 @@ cv.dLDA<-function(Xtrain,Ytrain,lambdaval=NULL,nl=100,msep=5,eps=1e-6,l_min_rati
       
         if (features[i,j]>min(n,p-1)){
           ytestpred <- classifyV(Xadj,ytrain,xtest,V,prior=prior)
-          error[i,j] <- sum(ytestpred!=ytest)/length(ytest)
+          error[id==i,j] <- ytestpred!=ytest
           break
         }else if (features[i,j]>0){
           ytestpred <- classifyV(Xadj,ytrain,xtest,V,prior=prior)
-          error[i,j] <- sum(ytestpred!=ytest)/length(ytest)
+          error[id==i,j] <- ytestpred!=ytest
        }
     }
   }
-  errormean <- colMeans(error)
-  j <- which.min(errormean)
-  obj <- list(lambda=lambdaval[j],error=colMeans(error),f=round(colMeans(features)),lambdaval=lambdaval)
+    error_mean <- colMeans(error)
+    error_se <- apply(error,2,sd)/sqrt(n)
+  j <- which.min(error_mean)
+  obj <- list(lambda_min=lambdaval[j],error_mean=error_mean, error_se = error_se, f=round(colMeans(features)),lambdaval=lambdaval)
   return(obj) 
   }
 }
