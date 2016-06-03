@@ -1,21 +1,19 @@
-#Irina Gaynanova
-#Nov 25th, 2013
-
 # Classification for the test set based on V
 # Xtrain is n1 by p
 # Xtest is n2 by p
 # Ytrain is n1 by 1
 # V is p by g-1
 classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T,tol1=1e-10){
+  if (any(is.na(Xtest))|any(is.na(Ytrain))|any(is.na(Xtrain))){
+    stop("Missing values are not allowed!")
+  }
   p <- ncol(Xtrain)
   if (ncol(Xtest)!=p){
     stop("Dimensions of Xtrain and Xtest don't match!")
   }
-  if (any(is.na(Xtest))|any(is.na(Ytrain))|any(is.na(Xtrain))){
-      stop("Missing values are not allowed!")
-  }
+  
   G <- max(Ytrain)
-  if (length(V)/(G-1)!=p){
+  if (length(V)/(G-1) != p){
     stop("Dimensions of Xtrain and V don't match!")
   }  
   ntrain <- nrow(Xtrain)
@@ -27,10 +25,10 @@ classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T,tol1=1e-10){
   Ytest <- rep(0,ntest) 
   V <- as.matrix(V)
 
+  trainproj <- Xtrain%*%V
+  testproj <- Xtest%*%V
+  
   if (G==2){
-    trainproj <- Xtrain%*%V
-    testproj <- Xtest%*%V
-    
     means <- matrix(0,2,1)
     for (i in 1:2){
       means[i,] <- mean(trainproj[Ytrain==i,])
@@ -41,10 +39,8 @@ classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T,tol1=1e-10){
     }
     Ytest <- apply(Dis,1,which.min)   
     return(Ytest)
-  } else{
+  }else{
     ######### G>2 ########################   
-    trainproj <- Xtrain%*%V
-    testproj <- Xtest%*%V
     myg <- as.factor(Ytrain)
     group.means <- tapply(trainproj,list(rep(myg,ncol(V)),col(trainproj)),mean)
     A1 <- var(trainproj-group.means[myg,]) 
@@ -62,7 +58,7 @@ classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T,tol1=1e-10){
     trainproj <- Xtrain%*%V
     testproj <- Xtest%*%V
 
-    if (prior==T){
+    if (prior == T){
         outlda <- lda(trainproj,grouping=Ytrain,tol=1e-16)
     }else{
         outlda <- lda(trainproj,grouping=Ytrain,prior=rep(1/max(Ytrain),max(Ytrain)),tol=1e-16)
