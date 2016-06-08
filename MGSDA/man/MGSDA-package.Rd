@@ -12,8 +12,8 @@ Implements Multi-Group Sparse Discriminant Analysis proposal of I.Gaynanova, J.B
 \tabular{ll}{
 Package: \tab MGSDA\cr
 Type: \tab Package\cr
-Version: \tab 1.3\cr
-Date: \tab 2016-05-11\cr
+Version: \tab 1.4\cr
+Date: \tab 2016-06-07\cr
 License: \tab GPL(>=2)\cr
 }
 Three functions for estimation and prediction: \code{cv.dLDA}, \code{dLDA} and \code{classifyV}.

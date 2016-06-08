@@ -39,7 +39,7 @@ Optional specification of random seed for generating the folds; the default valu
 \item{prior}{
 A logical indicating whether to put larger weights to the groups of larger size; the default value is TRUE.
 }
-\item{rho}{A small scalar that ensures the objective function is bounded from below; the default value is 1.
+\item{rho}{A scalar that ensures the objective function is bounded from below; the default value is 1.
 }
 }
 
@@ -81,7 +81,7 @@ xtrain=matrix(rnorm(p*n*G),n*G,p)
 # find optimal tuning parameter
 out.cv=cv.dLDA(xtrain,ytrain)
 # find V
-V=dLDA(xtrain,ytrain,lambda=out.cv$lambda)
+V=dLDA(xtrain,ytrain,lambda=out.cv$lambda_min)
 # number of non-zero features
 sum(rowSums(V)!=0)
 }

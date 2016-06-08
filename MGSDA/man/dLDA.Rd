@@ -32,7 +32,7 @@ dLDA(xtrain, ytrain, lambda, Vinit = NULL,eps=1e-6,maxiter=1000,rho=1)
 \item{maxiter}{
     Maximal number of iterations for the optimization algorithm; the default value is 1000.
 }
-\item{rho}{A small scalar that ensures the objective function is bounded from below; the default values is 1.
+\item{rho}{A scalar that ensures the objective function is bounded from below; the default value is 1.
 }
 }
 \details{
