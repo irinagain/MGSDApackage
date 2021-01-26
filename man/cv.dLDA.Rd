@@ -55,7 +55,7 @@ A logical indicating whether to put larger weights to the groups of larger size;
  \item{f}{The mean cross-validated number of non-zero features - a vector of length \code{length(lambdaval)}}
 }
 \references{
-I.Gaynanova, J.Booth and M.Wells (2015). "Simultaneous sparse estimation of canonical vectors in the p>>N setting", JASA, to appear
+I.Gaynanova, J.Booth and M.Wells (2016). "Simultaneous sparse estimation of canonical vectors in the p>>N setting", JASA, 111(514), 696-706.
 }
 \author{
 Irina Gaynanova

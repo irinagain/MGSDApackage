@@ -6,14 +6,14 @@
 MGSDA: Multi-Group Sparse Discriminant Analysis
 }
 \description{
-Implements Multi-Group Sparse Discriminant Analysis proposal of I.Gaynanova, J.Booth and M.Wells (2015) "Simultaneous sparse estimation of canonical vectors in the p>>n setting", JASA, to appear.
+Implements Multi-Group Sparse Discriminant Analysis proposal of I.Gaynanova, J.Booth and M.Wells (2016) "Simultaneous sparse estimation of canonical vectors in the p>>n setting", JASA, 111(514), 696-706.
 }
 \details{
 \tabular{ll}{
 Package: \tab MGSDA\cr
 Type: \tab Package\cr
 Version: \tab 1.4\cr
-Date: \tab 2016-06-07\cr
+Date: \tab 2021-01-25\cr
 License: \tab GPL(>=2)\cr
 }
 Three functions for estimation and prediction: \code{cv.dLDA}, \code{dLDA} and \code{classifyV}.
@@ -26,7 +26,7 @@ Irina Gaynanova
 Maintainer: Irina Gaynanova <irinag@stat.tamu.edu>
 }
 \references{
-I.Gaynanova, J.Booth and M.Wells (2015). "Simultaneous sparse estimation of canonical vectors in the p>>N setting", JASA, to appear
+I.Gaynanova, J.Booth and M.Wells (2016). "Simultaneous sparse estimation of canonical vectors in the p>>N setting", JASA, 111(514), 696-706.
 }
 
 %\keyword{package}
