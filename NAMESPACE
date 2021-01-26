@@ -1,6 +1,8 @@
-useDynLib("MGSDA")
+useDynLib("MGSDA", .registration = TRUE)
 
-exportPattern("^[[:alpha:]]+")
+export(cv.dLDA)
+export(dLDA)
+export(classifyV)
 
 importFrom(MASS,lda)
 importFrom("stats", "predict", "sd", "var")

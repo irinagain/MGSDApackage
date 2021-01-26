@@ -12,7 +12,7 @@ Implements Multi-Group Sparse Discriminant Analysis proposal of I.Gaynanova, J.B
 \tabular{ll}{
 Package: \tab MGSDA\cr
 Type: \tab Package\cr
-Version: \tab 1.4\cr
+Version: \tab 1.5\cr
 Date: \tab 2021-01-25\cr
 License: \tab GPL(>=2)\cr
 }
