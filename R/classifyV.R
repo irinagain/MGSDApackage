@@ -3,7 +3,7 @@
 # Xtest is n2 by p
 # Ytrain is n1 by 1
 # V is p by g-1
-classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T,tol1=1e-10){
+classifyV <- function(Xtrain, Ytrain, Xtest, V, prior = TRUE, tol1 = 1e-10){
   if (any(is.na(Xtest))|any(is.na(Ytrain))|any(is.na(Xtrain))){
     stop("Missing values are not allowed!")
   }
@@ -29,16 +29,19 @@ classifyV<-function(Xtrain,Ytrain,Xtest,V,prior=T,tol1=1e-10){
   testproj <- Xtest%*%V
   
   if (G==2){
-    means <- matrix(0,2,1)
-    for (i in 1:2){
-      means[i,] <- mean(trainproj[Ytrain==i,])
-    }  
-    Dis <- matrix(testproj^2,ntest,2)-2*tcrossprod(testproj,means)+matrix(t(means^2),ntest,2,byrow=T)
     if (prior){
-        Dis <- Dis-matrix(2*log(c(sum(Ytrain==1),sum(Ytrain==2))/ntrain),ntest,2,byrow=T)
+      outlda <- lda(trainproj, grouping=Ytrain, tol=1e-16)
+      ypredlda <- predict(outlda, testproj)
+      return(ypredlda$class)
+    }else{
+      means <- matrix(0,2,1)
+      for (i in 1:2){
+        means[i,] <- mean(trainproj[Ytrain==i,])
+      }  
+      Dis <- matrix(testproj^2,ntest,2)-2*tcrossprod(testproj,means)+matrix(t(means^2),ntest,2,byrow=T)
+      Ytest <- apply(Dis,1,which.min)   
+      return(Ytest)
     }
-    Ytest <- apply(Dis,1,which.min)   
-    return(Ytest)
   }else{
     ######### G>2 ########################   
     myg <- as.factor(Ytrain)

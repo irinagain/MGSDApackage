@@ -8,7 +8,7 @@ Classification for MGSDA
 Classify observations in the test set using the supplied matrix of canonical vectors V and the training set.
 }
 \usage{
-classifyV(Xtrain, Ytrain, Xtest, V, prior = T,tol1=1e-10)
+classifyV(Xtrain, Ytrain, Xtest, V, prior = TRUE, tol1 = 1e-10)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
